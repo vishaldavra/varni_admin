@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:get/get.dart';
@@ -39,6 +40,7 @@ class _KarigarViewState extends State<KarigarView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
         body: screenBool
             ? karigaedata(context)
             : GetBuilder<KarigarDataControler>(builder: ((controller) {
@@ -498,7 +500,7 @@ class _KarigarViewState extends State<KarigarView> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                  height: 150,
+                  height: keychekar0 == "JTC" ? 200 : 150,
                   width: double.infinity,
                   child: Material(
                     elevation: 1,
@@ -506,6 +508,162 @@ class _KarigarViewState extends State<KarigarView> {
                     color: Color.fromARGB(255, 245, 245, 245),
                     child: Column(
                       children: [
+                        Visibility(
+                          visible: keychekar0 == "JTC" ? true : false,
+                          child: Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(5.0),
+                                      child: ImageIcon(
+                                        AssetImage("images/rupee.png"),
+                                        size: 20,
+                                        color: Color.fromARGB(255, 43, 103, 122),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                      flex: 3,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 5, top: 10),
+                                                child: Text(
+                                                  'Rate',
+                                                  style: GoogleFonts.lato(fontSize: 14, fontWeight: FontWeight.w600, color: Color.fromARGB(255, 43, 103, 122)),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Padding(
+                                                    padding: const EdgeInsets.only(left: 5, top: 5),
+                                                    child: Text(
+                                                      karigarDataControler.karigardatalist[globalINDEX].bhav.toString(),
+                                                      style: GoogleFonts.lato(
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Color.fromARGB(255, 0, 0, 0),
+                                                      ),
+                                                      overflow: TextOverflow.clip,
+                                                    )),
+                                              ),
+                                              // Text(
+                                              //   '401,Nimbark recidency dabholi gam surat.dsfrghsdgksdfbv',
+                                              //   style: TextStyle(fontSize: 12),
+                                              //   maxLines: 2,
+                                              //   overflow: TextOverflow.ellipsis,
+                                              // ),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                  Expanded(
+                                    flex: 1,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Get.defaultDialog(
+                                            title: 'Change Rate',
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(3.0),
+                                                  child: SizedBox(
+                                                    width: 100,
+                                                    height: 40,
+                                                    child: Center(
+                                                      child: TextFormField(
+                                                        style: GoogleFonts.lato(fontWeight: FontWeight.w400, color: Color.fromARGB(255, 43, 103, 122), fontSize: 14),
+                                                        cursorColor: Color.fromARGB(255, 43, 103, 122),
+                                                        textInputAction: TextInputAction.next,
+                                                        inputFormatters: [
+                                                          // ignore: deprecated_member_use
+                                                          FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                                                          LengthLimitingTextInputFormatter(5),
+                                                        ],
+                                                        keyboardType: TextInputType.phone,
+                                                        decoration: InputDecoration(
+                                                          contentPadding: EdgeInsets.zero,
+                                                          hintStyle: TextStyle(color: Colors.grey),
+                                                          focusedBorder: OutlineInputBorder(
+                                                            borderSide: const BorderSide(color: Color.fromARGB(255, 43, 103, 122), width: 2.0),
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                          ),
+                                                          hintText: "\u{20B9} Rate",
+                                                          border: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                          ),
+                                                        ),
+                                                        textAlign: TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 30.0,
+                                                ),
+                                                SizedBox(
+                                                  height: 40,
+                                                  width: 100,
+                                                  child: Material(
+                                                    color: Color.fromARGB(255, 43, 103, 122),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    elevation: 2,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(5.0),
+                                                      child: Center(
+                                                        child: Text(
+                                                          "Submit",
+                                                          style: GoogleFonts.lato(
+                                                            fontSize: 12,
+                                                            fontWeight: FontWeight.w600,
+                                                            color: Color.fromARGB(255, 255, 255, 255),
+                                                          ),
+                                                          textAlign: TextAlign.center,
+                                                          overflow: TextOverflow.clip,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            radius: 10.0);
+                                      },
+                                      child: Material(
+                                        color: Color.fromARGB(255, 43, 103, 122),
+                                        borderRadius: BorderRadius.circular(10),
+                                        elevation: 1,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Text(
+                                            "Change",
+                                            style: GoogleFonts.lato(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              color: Color.fromARGB(255, 255, 255, 255),
+                                            ),
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.clip,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(3.0),
@@ -513,27 +671,13 @@ class _KarigarViewState extends State<KarigarView> {
                               children: [
                                 Expanded(
                                   flex: 1,
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      var keycheck = keychecker();
-
-                                      if (karigarDataControler.karigardatalist[globalINDEX].login.toString() == "1") {
-                                        await showDialog(context: context, builder: (context) => FutureProgressDialog(karigarDataControler.updatelive("0", karigarKeySelect, keycheck[0], 'login')));
-                                      } else {
-                                        await showDialog(
-                                          context: context,
-                                          builder: (context) => FutureProgressDialog(karigarDataControler.updatelive("1", karigarKeySelect, keycheck[0], 'login')),
-                                        );
-                                      }
-                                    },
-                                    child: Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: ImageIcon(
-                                          AssetImage("images/dot.png"),
-                                          size: 18,
-                                          color: karigarDataControler.karigardatalist[globalINDEX].login.toString() == "0" ? Colors.green.shade400 : Colors.red.shade400,
-                                        )),
-                                  ),
+                                  child: Padding(
+                                      padding: EdgeInsets.all(5.0),
+                                      child: ImageIcon(
+                                        AssetImage("images/dot.png"),
+                                        size: 18,
+                                        color: karigarDataControler.karigardatalist[globalINDEX].login.toString() == "0" ? Colors.green.shade400 : Colors.red.shade400,
+                                      )),
                                 ),
                                 Expanded(
                                     flex: 3,
@@ -563,6 +707,27 @@ class _KarigarViewState extends State<KarigarView> {
                                         ),
                                       ],
                                     )),
+                                Expanded(
+                                  flex: 1,
+                                  child: CupertinoSwitch(
+                                    activeColor: Colors.green.shade100,
+                                    trackColor: Colors.red.shade100,
+                                    thumbColor: Color.fromARGB(255, 43, 103, 122),
+                                    value: karigarDataControler.karigardatalist[globalINDEX].login.toString() == "0" ? true : false,
+                                    onChanged: (value) async {
+                                      var keycheck = keychecker();
+
+                                      if (karigarDataControler.karigardatalist[globalINDEX].login.toString() == "1") {
+                                        await showDialog(context: context, builder: (context) => FutureProgressDialog(karigarDataControler.updatelive("0", karigarKeySelect, keycheck[0], 'login')));
+                                      } else {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (context) => FutureProgressDialog(karigarDataControler.updatelive("1", karigarKeySelect, keycheck[0], 'login')),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -574,33 +739,19 @@ class _KarigarViewState extends State<KarigarView> {
                               children: [
                                 Expanded(
                                   flex: 1,
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      var keycheck = keychecker();
-
-                                      if (karigarDataControler.karigardatalist[globalINDEX].lockCnt.toString() == "1") {
-                                        await showDialog(context: context, builder: (context) => FutureProgressDialog(karigarDataControler.updatelive("0", karigarKeySelect, keycheck[0], 'lock')));
-                                      } else {
-                                        await showDialog(
-                                          context: context,
-                                          builder: (context) => FutureProgressDialog(karigarDataControler.updatelive("1", karigarKeySelect, keycheck[0], 'lock')),
-                                        );
-                                      }
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsets.all(5.0),
-                                      child: karigarDataControler.karigardatalist[globalINDEX].lockCnt.toString() == "0"
-                                          ? ImageIcon(
-                                              AssetImage("images/unlock.png"),
-                                              size: 30,
-                                              color: Colors.green.shade400,
-                                            )
-                                          : ImageIcon(
-                                              AssetImage("images/lock.png"),
-                                              size: 30,
-                                              color: Colors.red.shade400,
-                                            ),
-                                    ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: karigarDataControler.karigardatalist[globalINDEX].lockCnt.toString() == "0"
+                                        ? ImageIcon(
+                                            AssetImage("images/unlock.png"),
+                                            size: 30,
+                                            color: Colors.green.shade400,
+                                          )
+                                        : ImageIcon(
+                                            AssetImage("images/lock.png"),
+                                            size: 30,
+                                            color: Colors.red.shade400,
+                                          ),
                                   ),
                                 ),
                                 Expanded(
@@ -646,6 +797,9 @@ class _KarigarViewState extends State<KarigarView> {
                                 Expanded(
                                   flex: 1,
                                   child: CupertinoSwitch(
+                                    activeColor: Colors.green.shade100,
+                                    trackColor: Colors.red.shade100,
+                                    thumbColor: Color.fromARGB(255, 43, 103, 122),
                                     value: karigarDataControler.karigardatalist[globalINDEX].lockCnt.toString() == "0" ? true : false,
                                     onChanged: (value) async {
                                       var keycheck = keychecker();

@@ -157,28 +157,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.all(5.0),
                 child: ImageIcon(
                   AssetImage("images/home.png"),
-                  color: _page == 0 ? Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(255, 215, 181, 109),
+                  color: _page == 0 ? Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(255, 43, 103, 122),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.all(5.0),
                 child: ImageIcon(
                   AssetImage("images/user.png"),
-                  color: _page == 1 ? Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(255, 215, 181, 109),
+                  color: _page == 1 ? Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(255, 43, 103, 122),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.all(5.0),
                 child: ImageIcon(
                   AssetImage("images/workdone.png"),
-                  color: _page == 2 ? Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(255, 215, 181, 109),
+                  color: _page == 2 ? Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(255, 43, 103, 122),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.all(5.0),
                 child: ImageIcon(
                   AssetImage("images/stock.png"),
-                  color: _page == 3 ? Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(255, 215, 181, 109),
+                  color: _page == 3 ? Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(255, 43, 103, 122),
                 ),
               ),
             ],
