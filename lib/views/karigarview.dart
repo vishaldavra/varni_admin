@@ -10,8 +10,9 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import 'package:varni_admin/modals/karigar_models.dart';
-
+import 'package:intl/intl.dart';
 import '../controller/karigar_controler.dart';
+import '../controller/userdata_controler.dart';
 import '../strings/strings.dart';
 
 class KarigarView extends StatefulWidget {
@@ -23,6 +24,7 @@ class KarigarView extends StatefulWidget {
 
 class _KarigarViewState extends State<KarigarView> {
   KarigarDataControler karigarDataControler = Get.put(KarigarDataControler());
+  UserData userData = Get.put(UserData());
 
   PageController _controller = PageController(initialPage: 0, viewportFraction: 0.8);
   bool screenBool = false;
@@ -67,6 +69,18 @@ class _KarigarViewState extends State<KarigarView> {
 
                                     keychekar0 = keychekar[0];
                                   });
+                                  String todayDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
+                                  String date1 = "";
+                                  String date2 = "";
+                                  var parts0;
+                                  var v10, v20, v30;
+                                  parts0 = todayDate.split('-');
+                                  v10 = parts0[0].trim();
+                                  v20 = parts0[1].trim();
+                                  v30 = parts0[2].trim();
+                                  date1 = v10 + "-05" + "-01";
+                                  date2 = v10 + "-05" + "-31";
+                                  userData.getlotCOMPLETE(date1, date2, karigarKeySelect, keychekar0, true);
                                   // await Get.to(() => UserProfile());
                                 },
                                 child: Material(
