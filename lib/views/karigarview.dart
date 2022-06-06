@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bottom_picker/widgets/date_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,14 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
+import 'package:varni_admin/controller/datecontroler.dart';
+import 'package:varni_admin/datepicker/datepicker.dart';
 import 'package:varni_admin/modals/karigar_models.dart';
 import 'package:intl/intl.dart';
 import '../controller/karigar_controler.dart';
 import '../controller/userdata_controler.dart';
 import '../strings/strings.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class KarigarView extends StatefulWidget {
   const KarigarView({Key? key}) : super(key: key);
@@ -23,7 +27,10 @@ class KarigarView extends StatefulWidget {
 }
 
 class _KarigarViewState extends State<KarigarView> {
+  // GetBuilder<KarigarDataControler>(builder: ((controller) {return })),
   KarigarDataControler karigarDataControler = Get.put(KarigarDataControler());
+  Datepicker0 datepicker0 = Datepicker0();
+
   UserData userData = Get.put(UserData());
 
   PageController _controller = PageController(initialPage: 0, viewportFraction: 0.8);
@@ -31,7 +38,10 @@ class _KarigarViewState extends State<KarigarView> {
   int globalINDEX = 0;
   String karigarKeySelect = "";
   String keychekar0 = "";
-
+  String date1 = "";
+  String date2 = "";
+  DateContoller dateContoller = Get.put(DateContoller());
+  ScrollController scrollController = ScrollController();
   @override
   void dispose() {
     _controller.dispose();
@@ -70,16 +80,23 @@ class _KarigarViewState extends State<KarigarView> {
                                     keychekar0 = keychekar[0];
                                   });
                                   String todayDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
-                                  String date1 = "";
-                                  String date2 = "";
+
                                   var parts0;
                                   var v10, v20, v30;
                                   parts0 = todayDate.split('-');
                                   v10 = parts0[0].trim();
                                   v20 = parts0[1].trim();
                                   v30 = parts0[2].trim();
-                                  date1 = v10 + "-05" + "-01";
-                                  date2 = v10 + "-05" + "-31";
+                                  date1 = v10 + "-$v20" + "-01";
+                                  date2 = v10 + "-$v20" + "-31";
+                                  String a = datechanger(date1);
+                                  String b = datechanger(date2);
+                                  dateContoller.date1 = a.obs;
+                                  dateContoller.date2 = b.obs;
+                                  // await showDialog(
+                                  //   context: context,
+                                  //   builder: (context) => FutureProgressDialog(),
+                                  // );
                                   userData.getlotCOMPLETE(date1, date2, karigarKeySelect, keychekar0, true);
                                   // await Get.to(() => UserProfile());
                                 },
@@ -157,7 +174,54 @@ class _KarigarViewState extends State<KarigarView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        children: [
+                          GetBuilder<DateContoller>(builder: ((controller) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Obx(() => Text(
+                                      "From :${dateContoller.date1.obs}",
+                                      style: GoogleFonts.lato(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.clip,
+                                    )),
+                                Text(
+                                  "To :${dateContoller.date2.obs}",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ],
+                            );
+                          })),
+                          Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                datepicker0.showPicker(context, karigarKeySelect, keychekar0, true);
+                              },
+                              child: ImageIcon(
+                                AssetImage("images/calendar.png"),
+                                color: const Color.fromARGB(255, 43, 103, 122),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -284,7 +348,7 @@ class _KarigarViewState extends State<KarigarView> {
                         Center(child: aboutPage(context)),
                         Center(child: Text('DOGS')),
                         Center(child: Text('CATS')),
-                        Center(child: Text('CATS')),
+                        Center(child: paymentView(context)),
                       ],
                     ),
                   ),
@@ -307,6 +371,88 @@ class _KarigarViewState extends State<KarigarView> {
         ],
       );
     });
+  }
+
+  Builder paymentView(BuildContext context) {
+    return Builder(builder: ((context) {
+      return GetBuilder<KarigarDataControler>(builder: ((controller) {
+        return Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: userData.karigarPaymentlist.isNotEmpty
+              ? ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  controller: scrollController,
+                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                  itemCount: userData.karigarPaymentlist.length,
+                  itemBuilder: (context, index) {
+                    return AnimationConfiguration.staggeredList(
+                        position: index,
+                        delay: Duration(milliseconds: 6),
+                        child: SlideAnimation(
+                          duration: Duration(milliseconds: 30),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                          horizontalOffset: 30,
+                          verticalOffset: 30.0,
+                          child: FlipAnimation(
+                              duration: Duration(milliseconds: 30),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                              flipAxis: FlipAxis.x,
+                              child: Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Material(
+                                    animationDuration: const Duration(milliseconds: 200),
+                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                    elevation: 1,
+                                    color: Color.fromARGB(255, 245, 245, 245),
+                                    child: SizedBox(
+                                      height: 30,
+                                      width: double.infinity,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "\u{20B9}" + userData.karigarPaymentlist[index].amo.toString(),
+                                              style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black, fontSize: 14),
+                                            ),
+                                          ),
+                                          // Expanded(
+                                          //   child: Container(),
+                                          // ),
+                                          // Padding(
+                                          //   padding: const EdgeInsets.all(8.0),
+                                          //   child: Row(
+                                          //     children: [
+                                          //       Text(
+                                          //         datechanger(datelist0[index].toString()),
+                                          //         style: GoogleFonts.lato(fontWeight: FontWeight.w600, color: Colors.black, fontSize: hoverList4[index] == "1" ? 15 : 14),
+                                          //       ),
+                                          //       SizedBox(
+                                          //         width: 10,
+                                          //       ),
+                                          //       Text(
+                                          //         timelist[index].toString(),
+                                          //         style: GoogleFonts.lato(fontWeight: FontWeight.w600, color: Colors.black87, fontSize: hoverList4[index] == "1" ? 13 : 12),
+                                          //       ),
+                                          //     ],
+                                          //   ),
+                                          // ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )),
+                        ));
+                  })
+              : Container(),
+        );
+      }));
+    }));
   }
 
   Builder aboutPage(BuildContext context) {

@@ -47,6 +47,8 @@ dependencies:
   tab_indicator_styler: ^2.0.0
   auto_size_text: ^3.0.0
   intl: ^0.17.0
+  bottom_picker: ^1.8.0
+  flutter_staggered_animations: ^1.0.0
   
 
 dev_dependencies:

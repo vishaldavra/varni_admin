@@ -8,6 +8,7 @@ import '../strings/strings.dart';
 
 class KarigarDataControler extends GetxController {
   List<KarigarData> karigardatalist = [];
+
   @override
   void onInit() {
     super.onInit();
