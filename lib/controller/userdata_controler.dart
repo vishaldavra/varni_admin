@@ -75,6 +75,7 @@ class UserData extends GetxController {
       for (var i = 0; i < data.length; i++) {
         karigardatalist.add(GetLot(c0: data[i]['c0'], c00: data[i]["c00"], c000: data[i]["c000"], c1: data[i]['c1'], c2: data[i]['c2'], c3: data[i]['c3']));
       }
+      update();
       if (reponse.statusCode == 200) {
         await getlotPendin(date1, date2, partyKeySelected, keyTyp);
         await getPayment(partyKeySelected, date1, date2);
@@ -138,7 +139,7 @@ class UserData extends GetxController {
       for (var i = 0; i < data.length; i++) {
         karigardataPendinglist.add(GetPending(c0: data[i]['c0'], c00: data[i]["c00"], c000: data[i]["c000"], c1: data[i]['c1'], c2: data[i]['c2'], c3: data[i]['c3']));
       }
-
+      update();
       //print("data: $data");
       // var status = data["status"];
       // print("status: $status");
@@ -174,6 +175,7 @@ class UserData extends GetxController {
         //   setState(() {});
         // }
       }
+      update();
       if (reponse.statusCode == 200) {
         print("200");
       }

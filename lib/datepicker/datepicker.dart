@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:varni_admin/controller/datecontroler.dart';
@@ -27,147 +28,12 @@ class Datepicker0 {
             height: 220,
             child: Column(
               children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
-                    ),
-                  ),
-                  height: 30,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(1, 1, 5, 0),
-                        child: Material(
-                            elevation: 5.0,
-                            color: Color.fromARGB(255, 18, 192, 70),
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(5.0),
-                              topRight: Radius.circular(5.0),
-                              bottomLeft: Radius.circular(5.0),
-                              bottomRight: Radius.circular(5.0),
-                            ),
-                            child: InkWell(
-                              splashColor: const Color.fromARGB(255, 46, 44, 94),
-                              splashFactory: InkSplash.splashFactory,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(5.0),
-                                topRight: Radius.circular(5.0),
-                                bottomLeft: Radius.circular(5.0),
-                                bottomRight: Radius.circular(5.0),
-                              ),
-                              onTap: () async {
-                                // month = monthlist[selectedValu2];
-                                // year = yearlist[selectedValu];
-                                String s1 = "";
-                                selectedValu2 += 1;
-                                if (selectedValu2 < 10) {
-                                  s1 = "0" + selectedValu2.toString();
-                                } else {
-                                  s1 = selectedValu2.toString();
-                                }
-
-                                String dateone = datechanger(yearlist[selectedValu] + "-$s1" + "-01");
-                                String datetow = datechanger(yearlist[selectedValu] + "-$s1" + "-31");
-                                dateContoller.date1 = dateone.obs;
-                                dateContoller.date2 = datetow.obs;
-                                dateContoller.update();
-
-                                // setState(() {});
-                                // await showDialog(
-                                //   context: context,
-                                //   builder: (context) => FutureProgressDialog(getlot(context, date1, date2)),
-                                // );
-                                Navigator.pop(context, false);
-                                await userData.getlotCOMPLETE(yearlist[selectedValu] + "-$s1" + "-01", yearlist[selectedValu] + "-$s1" + "-31", karigarKeySelect, keychekar0, true);
-                              },
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 1), blurRadius: 1.0)],
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(5.0),
-                                    topRight: Radius.circular(5.0),
-                                    bottomLeft: Radius.circular(5.0),
-                                    bottomRight: Radius.circular(5.0),
-                                  ),
-                                ),
-                                width: 60,
-                                height: 20,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "OK",
-                                  style: GoogleFonts.lato(shadows: const [
-                                    Shadow(
-                                      blurRadius: 0.5,
-                                      color: Colors.black,
-                                      offset: Offset(0.5, 0.5),
-                                    ),
-                                  ], fontWeight: FontWeight.w800, color: Colors.white, fontSize: 12),
-                                ),
-                              ),
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(1, 1, 5, 0),
-                        child: Material(
-                            elevation: 5.0,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(5.0),
-                              topRight: Radius.circular(5.0),
-                              bottomLeft: Radius.circular(5.0),
-                              bottomRight: Radius.circular(5.0),
-                            ),
-                            child: InkWell(
-                              splashColor: const Color.fromARGB(255, 46, 44, 94),
-                              splashFactory: InkSplash.splashFactory,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(5.0),
-                                topRight: Radius.circular(5.0),
-                                bottomLeft: Radius.circular(5.0),
-                                bottomRight: Radius.circular(5.0),
-                              ),
-                              onTap: () async {
-                                Navigator.pop(context, false);
-                              },
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 1), blurRadius: 1.0)],
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(5.0),
-                                    topRight: Radius.circular(5.0),
-                                    bottomLeft: Radius.circular(5.0),
-                                    bottomRight: Radius.circular(5.0),
-                                  ),
-                                ),
-                                width: 60,
-                                height: 20,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "Close",
-                                  style: GoogleFonts.lato(shadows: const [
-                                    Shadow(
-                                      blurRadius: 0.5,
-                                      color: Colors.black,
-                                      offset: Offset(0.5, 0.5),
-                                    ),
-                                  ], fontWeight: FontWeight.w800, color: Colors.black, fontSize: 12),
-                                ),
-                              ),
-                            )),
-                      ),
-                    ],
-                  ),
-                ),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        width: 100,
+                      Expanded(
+                        flex: 2,
                         child: CupertinoPicker(
                           looping: true,
                           onSelectedItemChanged: (value) {
@@ -250,8 +116,8 @@ class Datepicker0 {
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: 100,
+                      Expanded(
+                        flex: 2,
                         child: CupertinoPicker(
                           looping: true,
                           onSelectedItemChanged: (value) {
@@ -473,6 +339,134 @@ class Datepicker0 {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Material(
+                                    elevation: 5.0,
+                                    color: Color.fromARGB(255, 74, 153, 177),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(5.0),
+                                      topRight: Radius.circular(5.0),
+                                      bottomLeft: Radius.circular(5.0),
+                                      bottomRight: Radius.circular(5.0),
+                                    ),
+                                    child: InkWell(
+                                      splashColor: Colors.green.shade300,
+                                      splashFactory: InkSplash.splashFactory,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(5.0),
+                                        topRight: Radius.circular(5.0),
+                                        bottomLeft: Radius.circular(5.0),
+                                        bottomRight: Radius.circular(5.0),
+                                      ),
+                                      onTap: () async {
+                                        // month = monthlist[selectedValu2];
+                                        // year = yearlist[selectedValu];
+                                        String s1 = "";
+                                        selectedValu2 += 1;
+                                        if (selectedValu2 < 10) {
+                                          s1 = "0" + selectedValu2.toString();
+                                        } else {
+                                          s1 = selectedValu2.toString();
+                                        }
+
+                                        String dateone = datechanger(yearlist[selectedValu] + "-$s1" + "-01");
+                                        String datetow = datechanger(yearlist[selectedValu] + "-$s1" + "-31");
+                                        dateContoller.date1 = dateone.obs;
+                                        dateContoller.date2 = datetow.obs;
+                                        dateContoller.update();
+
+                                        await showDialog(
+                                          context: context,
+                                          builder: (context) => FutureProgressDialog(
+                                              userData.getlotCOMPLETE(yearlist[selectedValu] + "-$s1" + "-01", yearlist[selectedValu] + "-$s1" + "-31", karigarKeySelect, keychekar0, true)),
+                                        );
+
+                                        Navigator.pop(context, false);
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        decoration: const BoxDecoration(
+                                          boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 1), blurRadius: 1.0)],
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(5.0),
+                                            topRight: Radius.circular(5.0),
+                                            bottomLeft: Radius.circular(5.0),
+                                            bottomRight: Radius.circular(5.0),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          "OK",
+                                          style: GoogleFonts.lato(shadows: const [
+                                            Shadow(
+                                              blurRadius: 0.5,
+                                              color: Colors.black,
+                                              offset: Offset(0.5, 0.5),
+                                            ),
+                                          ], fontWeight: FontWeight.w800, color: Colors.white, fontSize: 12),
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Material(
+                                    elevation: 5.0,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(5.0),
+                                      topRight: Radius.circular(5.0),
+                                      bottomLeft: Radius.circular(5.0),
+                                      bottomRight: Radius.circular(5.0),
+                                    ),
+                                    child: InkWell(
+                                      splashColor: Colors.red.shade300,
+                                      splashFactory: InkSplash.splashFactory,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(5.0),
+                                        topRight: Radius.circular(5.0),
+                                        bottomLeft: Radius.circular(5.0),
+                                        bottomRight: Radius.circular(5.0),
+                                      ),
+                                      onTap: () async {
+                                        Navigator.pop(context, false);
+                                      },
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 1), blurRadius: 1.0)],
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(5.0),
+                                            topRight: Radius.circular(5.0),
+                                            bottomLeft: Radius.circular(5.0),
+                                            bottomRight: Radius.circular(5.0),
+                                          ),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Close",
+                                          style: GoogleFonts.lato(shadows: const [
+                                            Shadow(
+                                              blurRadius: 0.5,
+                                              color: Colors.black,
+                                              offset: Offset(0.5, 0.5),
+                                            ),
+                                          ], fontWeight: FontWeight.w800, color: Colors.black, fontSize: 12),
+                                        ),
+                                      ),
+                                    )),
                               ),
                             ),
                           ],
