@@ -11,6 +11,7 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import 'package:varni_admin/controller/datecontroler.dart';
+import 'package:varni_admin/controller/main_party_controler.dart';
 import 'package:varni_admin/datepicker/datepicker.dart';
 import 'package:varni_admin/modals/karigar_models.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +34,7 @@ class KarigarView extends StatefulWidget {
 class _KarigarViewState extends State<KarigarView> {
   // GetBuilder<KarigarDataControler>(builder: ((controller) {return })),
   KarigarDataControler karigarDataControler = Get.put(KarigarDataControler());
+  MainPartyControler mainPartyControler = Get.put(MainPartyControler());
   Datepicker0 datepicker0 = Datepicker0();
 
   UserData userData = Get.put(UserData());
@@ -44,8 +46,11 @@ class _KarigarViewState extends State<KarigarView> {
   String keychekar0 = "";
   String date1 = "";
   String date2 = "";
-  DateContoller dateContoller = Get.put(DateContoller());
+  StringContoller stringContoller = Get.put(StringContoller());
   ScrollController scrollController = ScrollController();
+  bool varniB = true;
+  bool jobB = false;
+  bool mainB = false;
   @override
   void dispose() {
     _controller.dispose();
@@ -55,118 +60,316 @@ class _KarigarViewState extends State<KarigarView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: false,
-        body: screenBool
-            ? karigaedata(context)
-            : GetBuilder<KarigarDataControler>(builder: ((controller) {
-                return RefreshIndicator(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: GridView.count(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 2.0,
-                        mainAxisSpacing: 4.0,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        children: List.generate(karigarDataControler.karigardatalist.length, (index) {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: InkWell(
-                                onTap: () async {
-                                  setState(() {
-                                    karigarKeySelect = karigarDataControler.karigardatalist[index].clKey.toString();
-                                    var keychekar;
-                                    keychekar = keychecker();
-                                    screenBool = true;
-                                    globalINDEX = index;
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
+      body: screenBool
+          ? karigaedata(context)
+          : varniB
+              ? GetBuilder<KarigarDataControler>(builder: ((controller) {
+                  return RefreshIndicator(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: GridView.count(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 2.0,
+                          mainAxisSpacing: 4.0,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: List.generate(karigarDataControler.karigardatalist.length, (index) {
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    setState(() {
+                                      karigarKeySelect = karigarDataControler.karigardatalist[index].clKey.toString();
+                                      var keychekar;
+                                      keychekar = keychecker();
+                                      screenBool = true;
+                                      globalINDEX = index;
 
-                                    keychekar0 = keychekar[0];
-                                  });
-                                  String todayDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
+                                      keychekar0 = keychekar[0];
+                                    });
+                                    String todayDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
 
-                                  var parts0;
-                                  var v10, v20, v30;
-                                  parts0 = todayDate.split('-');
-                                  v10 = parts0[0].trim();
-                                  v20 = parts0[1].trim();
-                                  v30 = parts0[2].trim();
-                                  date1 = v10 + "-$v20" + "-01";
-                                  date2 = v10 + "-$v20" + "-31";
-                                  String a = datechanger(date1);
-                                  String b = datechanger(date2);
-                                  dateContoller.date1 = a.obs;
-                                  dateContoller.date2 = b.obs;
-                                  // await showDialog(
-                                  //   context: context,
-                                  //   builder: (context) => FutureProgressDialog(),
-                                  // );
-                                  await showDialog(
-                                    context: context,
-                                    builder: (context) => FutureProgressDialog(userData.getlotCOMPLETE(date1, date2, karigarKeySelect, keychekar0, true)),
-                                  );
+                                    var parts0;
+                                    var v10, v20, v30;
+                                    parts0 = todayDate.split('-');
+                                    v10 = parts0[0].trim();
+                                    v20 = parts0[1].trim();
+                                    v30 = parts0[2].trim();
+                                    date1 = v10 + "-$v20" + "-01";
+                                    date2 = v10 + "-$v20" + "-31";
+                                    String a = datechanger(date1);
+                                    String b = datechanger(date2);
+                                    stringContoller.date1 = a.obs;
+                                    stringContoller.date2 = b.obs;
+                                    // await showDialog(
+                                    //   context: context,
+                                    //   builder: (context) => FutureProgressDialog(),
+                                    // );
+                                    stringContoller.karigarKry = karigarKeySelect.obs;
+                                    stringContoller.keyTYP = keychekar0.obs;
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context) => FutureProgressDialog(userData.getlotCOMPLETE(date1, date2, karigarKeySelect, keychekar0, true)),
+                                    );
 
-                                  // await Get.to(() => UserProfile());
-                                },
-                                child: Material(
-                                  elevation: 1,
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color.fromARGB(255, 245, 245, 245),
-                                  child: SizedBox(
-                                    height: double.infinity,
-                                    width: double.infinity,
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(3.0),
-                                          child: Material(
-                                            borderRadius: BorderRadius.circular(30),
-                                            child: SizedBox(
-                                              height: 60,
-                                              width: 60,
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(30),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: "$imageUrl${karigarDataControler.karigardatalist[index].logo.toString()}",
-                                                  imageBuilder: (context, imageProvider) => Container(
-                                                    decoration: BoxDecoration(
-                                                      image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                    // await Get.to(() => UserProfile());
+                                  },
+                                  child: Material(
+                                    elevation: 1,
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color.fromARGB(255, 245, 245, 245),
+                                    child: SizedBox(
+                                      height: double.infinity,
+                                      width: double.infinity,
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(3.0),
+                                            child: Material(
+                                              borderRadius: BorderRadius.circular(30),
+                                              child: SizedBox(
+                                                height: 60,
+                                                width: 60,
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(30),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: "$imageUrl${karigarDataControler.karigardatalist[index].logo.toString()}",
+                                                    imageBuilder: (context, imageProvider) => Container(
+                                                      decoration: BoxDecoration(
+                                                        image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                                      ),
                                                     ),
+                                                    placeholder: (context, url) => CircularProgressIndicator(
+                                                      color: Color.fromARGB(255, 43, 103, 122),
+                                                    ),
+                                                    errorWidget: (context, url, error) => Icon(Icons.error),
                                                   ),
-                                                  placeholder: (context, url) => CircularProgressIndicator(
-                                                    color: Color.fromARGB(255, 43, 103, 122),
-                                                  ),
-                                                  errorWidget: (context, url, error) => Icon(Icons.error),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: Text(
-                                            '${karigarDataControler.karigardatalist[index].name.toString()}',
-                                            style: GoogleFonts.lato(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black),
+                                          Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                            child: Text(
+                                              '${karigarDataControler.karigardatalist[index].name.toString()}',
+                                              style: GoogleFonts.lato(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black),
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          '${karigarDataControler.karigardatalist[index].mobile.toString()}',
-                                          style: GoogleFonts.lato(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black),
-                                        )
-                                      ],
+                                          Text(
+                                            '${karigarDataControler.karigardatalist[index].mobile.toString()}',
+                                            style: GoogleFonts.lato(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        })),
-                  ),
-                  onRefresh: () {
-                    return karigarDataControler.fechproductData();
-                  },
-                );
-              })));
+                            );
+                          })),
+                    ),
+                    onRefresh: () {
+                      return karigarDataControler.fechproductData();
+                    },
+                  );
+                }))
+              : mainB
+                  ? GetBuilder<MainPartyControler>(builder: ((controller) {
+                      return RefreshIndicator(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: GridView.count(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 2.0,
+                              mainAxisSpacing: 4.0,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              children: List.generate(mainPartyControler.mainkarigarList.length, (index) {
+                                return Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        setState(() {
+                                          karigarKeySelect = mainPartyControler.mainkarigarList[index].pKey.toString();
+                                          var keychekar;
+                                          keychekar = keychecker();
+                                          screenBool = true;
+                                          globalINDEX = index;
+
+                                          keychekar0 = keychekar[0];
+                                        });
+                                        String todayDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
+
+                                        var parts0;
+                                        var v10, v20, v30;
+                                        parts0 = todayDate.split('-');
+                                        v10 = parts0[0].trim();
+                                        v20 = parts0[1].trim();
+                                        v30 = parts0[2].trim();
+                                        date1 = v10 + "-$v20" + "-01";
+                                        date2 = v10 + "-$v20" + "-31";
+                                        String a = datechanger(date1);
+                                        String b = datechanger(date2);
+                                        stringContoller.date1 = a.obs;
+                                        stringContoller.date2 = b.obs;
+                                        // await showDialog(
+                                        //   context: context,
+                                        //   builder: (context) => FutureProgressDialog(),
+                                        // );
+                                        stringContoller.karigarKry = karigarKeySelect.obs;
+                                        stringContoller.keyTYP = keychekar0.obs;
+                                        await showDialog(
+                                          context: context,
+                                          builder: (context) => FutureProgressDialog(userData.getlotCOMPLETE(date1, date2, karigarKeySelect, keychekar0, true)),
+                                        );
+
+                                        // await Get.to(() => UserProfile());
+                                      },
+                                      child: Material(
+                                        elevation: 1,
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Color.fromARGB(255, 245, 245, 245),
+                                        child: SizedBox(
+                                          height: double.infinity,
+                                          width: double.infinity,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(3.0),
+                                                child: Material(
+                                                  borderRadius: BorderRadius.circular(30),
+                                                  child: SizedBox(
+                                                    height: 60,
+                                                    width: 60,
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(30),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: "$imageUrl${mainPartyControler.mainkarigarList[index].logo.toString()}",
+                                                        imageBuilder: (context, imageProvider) => Container(
+                                                          decoration: BoxDecoration(
+                                                            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                                          ),
+                                                        ),
+                                                        placeholder: (context, url) => CircularProgressIndicator(
+                                                          color: Color.fromARGB(255, 43, 103, 122),
+                                                        ),
+                                                        errorWidget: (context, url, error) => Icon(Icons.error),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(2.0),
+                                                child: Text(
+                                                  '${mainPartyControler.mainkarigarList[index].name.toString()}',
+                                                  style: GoogleFonts.lato(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black),
+                                                ),
+                                              ),
+                                              Text(
+                                                '${mainPartyControler.mainkarigarList[index].mobile.toString()}',
+                                                style: GoogleFonts.lato(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              })),
+                        ),
+                        onRefresh: () {
+                          return karigarDataControler.fechproductData();
+                        },
+                      );
+                    }))
+                  : Container(),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.32,
+              height: 40,
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+              // ),
+              child: FloatingActionButton.extended(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(topRight: Radius.circular(25), bottomRight: Radius.circular(25)),
+                ),
+                backgroundColor: Color.fromARGB(255, 58, 133, 156),
+                onPressed: () {
+                  setState(() {
+                    mainB = true;
+                  });
+                },
+                elevation: 2,
+                label: Text(
+                  "Main Party",
+                  style: TextStyle(fontSize: 18.0, letterSpacing: 0),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.28,
+              height: 40,
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+              // ),
+              child: FloatingActionButton.extended(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                backgroundColor: Color.fromARGB(255, 58, 133, 156),
+                onPressed: () {
+                  setState(() {
+                    varniB = true;
+                  });
+                },
+                elevation: 2,
+                label: Text(
+                  "Varni",
+                  style: TextStyle(fontSize: 18.0, letterSpacing: 0),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.32,
+              height: 40,
+              child: FloatingActionButton.extended(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(25), bottomLeft: Radius.circular(25)),
+                ),
+                backgroundColor: Color.fromARGB(255, 58, 133, 156),
+                onPressed: () {
+                  //255, 43, 103, 122
+                  setState(() {
+                    jobB = true;
+                  });
+                },
+                elevation: 2,
+                label: Text(
+                  "Job Forpi",
+                  style: TextStyle(fontSize: 18.0, letterSpacing: 0),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
   }
 
   Builder karigaedata(BuildContext context) {
@@ -185,7 +388,7 @@ class _KarigarViewState extends State<KarigarView> {
                   Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                     Row(
                       children: [
-                        GetBuilder<DateContoller>(builder: ((controller) {
+                        GetBuilder<StringContoller>(builder: ((controller) {
                           return Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -204,7 +407,7 @@ class _KarigarViewState extends State<KarigarView> {
                                         ),
                                       ),
                                       TextSpan(
-                                        text: '${dateContoller.date1.obs}',
+                                        text: '${stringContoller.date1.obs}',
                                         style: GoogleFonts.lato(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -227,7 +430,7 @@ class _KarigarViewState extends State<KarigarView> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: '${dateContoller.date2.obs}',
+                                      text: '${stringContoller.date2.obs}',
                                       style: GoogleFonts.lato(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,

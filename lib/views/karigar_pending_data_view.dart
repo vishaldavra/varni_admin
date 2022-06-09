@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:varni_admin/controller/datecontroler.dart';
 
 import '../controller/userdata_controler.dart';
 
 class KarigarPendingView extends StatelessWidget {
   UserData userData = Get.put(UserData());
+  StringContoller stringContoller = Get.put(StringContoller());
   ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
@@ -42,25 +44,48 @@ class KarigarPendingView extends StatelessWidget {
                                 child: SizedBox(
                                   height: 40,
                                   width: double.infinity,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          userData.karigardataPendinglist[index].c0.toString(),
-                                          style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black, fontSize: 15),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 10),
-                                        child: Text(
-                                          datechanger(userData.karigardataPendinglist[index].c3.toString()),
-                                          style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black, fontSize: 13),
-                                        ),
-                                      )
-                                    ],
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        if (stringContoller.keyTYP == "JP4P" || stringContoller.keyTYP == "JTC" || stringContoller.keyTYP == "VP4P") ...[
+                                          Text(
+                                            userData.karigardataPendinglist[index].c00.toString(),
+                                            style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black, fontSize: 15),
+                                          ),
+                                          Text(
+                                            userData.karigardataPendinglist[index].c000.toString(),
+                                            style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black, fontSize: 15),
+                                          ),
+                                          Text(
+                                            userData.karigardataPendinglist[index].c2.toString(),
+                                            style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black, fontSize: 15),
+                                          ),
+                                          Text(
+                                            datechanger(userData.karigardataPendinglist[index].c3.toString()),
+                                            style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black, fontSize: 15),
+                                          ),
+                                        ] else ...[
+                                          Text(
+                                            userData.karigardataPendinglist[index].c0.toString(),
+                                            style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black, fontSize: 15),
+                                          ),
+                                          Text(
+                                            userData.karigardataPendinglist[index].c1.toString(),
+                                            style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black, fontSize: 15),
+                                          ),
+                                          Text(
+                                            userData.karigardataPendinglist[index].c2.toString(),
+                                            style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black, fontSize: 15),
+                                          ),
+                                          Text(
+                                            datechanger(userData.karigardataPendinglist[index].c3.toString()),
+                                            style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black, fontSize: 15),
+                                          ),
+                                        ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

@@ -6,3 +6,4 @@ const reportAll4PURL = "http://dsrsoftech.com/varni/reports/get_grup_forpi_compl
 const getPaymentURL = "http://dsrsoftech.com/varni/get_payment.php";
 const List monthlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const List yearlist = ["2022", "2023", "2024", "2025"];
+const getParyURL = "http://dsrsoftech.com/varni/get_all_party.php";

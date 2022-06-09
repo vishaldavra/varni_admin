@@ -10,7 +10,7 @@ import '../strings/strings.dart';
 
 class Datepicker0 {
   showPicker(BuildContext context, String karigarKeySelect, String keychekar0, bool check) {
-    DateContoller dateContoller = Get.put(DateContoller());
+    StringContoller dateContoller = Get.put(StringContoller());
     int selectedValu = 0;
     int selectedValu2 = 0;
     UserData userData = Get.put(UserData());
